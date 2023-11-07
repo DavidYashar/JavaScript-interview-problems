@@ -17,23 +17,74 @@ function maxi(arr){
 
 
 // distance of a character to others in a string
-function distance(str, t){
-    let distance = [];
-    for(let i=0; i<str.length; i++){
-        if(str[i]=== t){
-            distance.push(0)
+
+
+function calculateDistances(str, char) {
+    const distances = [];
+    let lastPosition = -1;
+
+    // Scan from left to right.
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === char) {
+            lastPosition = i;
         }
-        else{
-            let dist = Math.abs(str.indexOf(t) - i)
-            distance.push(dist)
+        if (lastPosition === -1) {
+            distances[i] = Infinity;
+        } else {
+            distances[i] = i - lastPosition;
+        }
+    }
+
+    // Scan from right to left.
+    lastPosition = -1;
+    for (let i = str.length - 1; i >= 0; i--) {
+        if (str[i] === char) {
+            lastPosition = i;
+        }
+        if (lastPosition !== -1) {
+            distances[i] = Math.min(distances[i], lastPosition - i);
+        }
+    }
+
+    return distances;
+}
+
+console.log(calculateDistances('diragornov', 'r'));
+
+
+
+
+function dist(str, t){
+    let distance = []
+    let lastpos = -1
+
+    for(let i =0; i<str.length; i++){
+        if(str[i] ===t){
+            lastpos =i
+        }
+        if(lastpos ===-1){
+            distance[i]= Infinity
+        
+        }else{
+            distance[i] = i - lastpos
+        }
+    }
+
+    lastpos = -1
+
+    for(let i = str.length -1; i>=0; i--){
+        if(str[i] ===t){
+            lastpos =i
+        }
+        if(lastpos !== -1){
+            distance[i] = Math.min(distance[i], lastpos -i)
         }
     }
     return distance
 }
 
-console.log(distance("Yashar", 'r'))
 
-
+console.log(dist('drvenicgtroventriog', 'r'))
 // listing Gold Medal, Silver Medal, and Boronze medal
 
 function sorted(arr){
@@ -65,7 +116,8 @@ function sorted(arr){
 console.log(sorted([4,2,3,5,1,7,6]))
 
   
-  
+
+
 
 
 //returning an array of only even numbers
@@ -89,6 +141,8 @@ function even(arr){
   }
   
   console.log(even2([1,2,4,5,6,7,8,9,5,4,3,2,22,33,44,55]))
+
+
 
 
 
@@ -121,6 +175,8 @@ console.log(isPrime(19))
 
 
 
+
+
 // finding the largest element in nested array
 
 function largestNest(nested){
@@ -147,6 +203,9 @@ console.log(largestNest([
     [7, 8, 9]
   ]))
 
+
+
+
   //fibonacci to the given number
 
  function fibo(n){
@@ -166,7 +225,12 @@ console.log(largestNest([
     }
  }
 
- console.log(fibo(11))
+ console.log(fibo(10))
+
+
+
+
+
 
 
  // capitalize the first word of each string
@@ -176,7 +240,6 @@ function capital(str){
 }
 
 console.log(capital("another changing to capital the first letter"))
-
 
 
 
@@ -226,6 +289,8 @@ const keyArr = [
 console.log(keySort(keyArr, 'age'))
 
 
+
+
 // Implement a deep clone function
 //  in JavaScript that creates a 
 //  copy of a nested object or array
@@ -258,6 +323,8 @@ function factoral(num){
 }
 
 console.log(factoral(4))
+
+
 
 
 
@@ -335,14 +402,14 @@ function mergeSorted(arr){
 
         return merge.concat(left.slice(i)).concat(right.slice(j))
     }
+
+    let arr11 = [1,12,4,4,5,6,7,8,9,0]
+let arr22 =[5,6,9,4,3,22,11,5,66,78,65]
    
     console.log(mergeSortedArrays(arr11, arr22))
 
-let arr11 = [1,12,4,4,5,6,7,8,9,0]
-let arr22 =[5,6,9,4,3,22,11,5,66,78,65]
 
 
-console.log(arr11.concat(arr22))
 
 
 
@@ -356,6 +423,8 @@ function isPalindrome(s){
 }
 
 console.log(isPalindrome("Yashsay"))
+
+
 
 
 
@@ -413,3 +482,259 @@ class LinkedList {
         }
     }
 }
+
+
+
+
+
+
+// Implement a function that flattens a nested array in JavaScript, 
+// converting it into a single-level array. 
+
+
+function flatterArr(arr){
+    return arr.flat(Infinity)
+}
+
+console.log(flatterArr([[1,3,6],[34,6,7]]))
+
+
+
+// Write a function that determines if two strings are anagrams of each other  
+
+function anagram(str1, str2){
+  return str1.split('').sort().join('') === str2.split('').sort().join('')
+}
+
+console.log(anagram('yashar','rashah'))
+
+
+
+
+// Create a JavaScript function that returns the Fibonacci sequence up to a given number,
+//  utilizing memoization for optimized performance.
+
+function fiboMemo(n, memo = {}){
+    if(n <=0) return 0;
+    if(n ===1) return 1;
+    if(n in memo) return memo[n];
+
+    memo[n] = fiboMemo(n - 1, memo) + fiboMemo(n - 2, memo);
+
+    return memo[n]
+}
+
+console.log(fiboMemo(10))
+
+
+
+// Implement a function to reverse a string
+//  without using the built-in reverse() method. 
+
+function rev(str){
+    let revers = '';
+
+    for(let i = str.length -1; i >=0; i--){
+        revers+=str[i]
+    }
+    return revers
+}
+
+console.log(rev('fibonacci'))
+
+
+
+
+
+
+
+// Given an array of numbers, write a function
+//  to find the largest and smallest numbers in the array. 
+
+function minMax(arr){
+    let min = Math.min(...arr)
+    let max = Math.max(...arr)
+
+    return [min, max]
+}
+
+console.log(minMax([3,5,6,8,9,11,4,2]))
+
+
+
+
+// Write a function that takes an array of integers as input
+//  and returns a new array with only the unique elements. 
+
+function unique(arr){
+ return Array.from(new Set(arr))
+}
+console.log(unique([4,6,7,8,2,1,2,3,4,5,4,7,8,9,6,5,4,3,2,1,2,3,4,5]))
+
+
+
+
+
+// Implement a function to find the sum of all the numbers in an array. 
+
+function sum(arr){
+    return arr.reduce((a,b)=> a+b,0)
+}
+console.log(sum([3,2,4,5,6]))
+
+
+
+// Given a string, write a function 
+// to count the occurrences of each character in the string. 
+
+function occurance(str){
+    let count = {};
+
+    for(let char of str){
+        if(count[char]){
+            count[char]++
+        }else{
+            count[char]=1
+        }
+    }
+    return count
+}
+
+console.log(occurance('Dragonovsky'))
+
+
+// Implement a function to remove duplicates from an array. 
+
+function duplicate(arr){
+    return Array.from(new Set(arr))
+}
+
+console.log(duplicate([2,4,5,7,8,9,99,9,8,7,6,6,7,5,4,3,2,4]))
+
+
+
+// Write a function that sorts an array of numbers in ascending order. 
+
+function sortNum(arr){
+    return arr.sort((a,b)=> b-a)
+}
+
+console.log(sortNum([1,2,3,4,5,6,7,8,9]))
+
+
+
+
+
+// Tricky JavaScript coding questions
+
+// Write a function that reverses the order of words in a
+//  sentence without using the built-in reverse() method. 
+
+function reversWord(senten){
+    let words = senten.split(" ")
+    let revers = ''
+
+    for(let i = words.length -1; i>=0; i--){
+        revers+=words[i] + (i>0? " ": '')
+    }
+    return revers
+}
+
+console.log(reversWord("This is new words"))
+
+
+
+
+// Implement a function that checks if a given string is a palindrome 
+// (reads the same forwards and backwards) while ignoring whitespace and punctuation.
+
+function palindrom(str){
+    let cleaned = str.toLowerCase().replace(/[^\w]/g, '')
+
+    return cleaned === cleaned.split('').reverse().join('')
+}
+
+console.log(palindrom("Yashhsay"))
+
+
+
+// Write a function that takes an array of integers and returns
+//  the largest difference between any two numbers in the array. 
+
+function highest(arr){
+    let min = arr[0]
+    let high = 0
+
+
+    for(let i =0; i<arr.length; i++){
+        if(arr[i]< min){
+            min = arr[i]
+        }
+        else{
+            let dif = arr[i] - min
+            if(dif > high){
+                high = dif
+            }
+        }
+    }
+    return high;
+}
+
+console.log(highest([2,4,5,6,7,8,19]))
+
+
+
+
+// Implement a function that removes duplicates from an array,
+//  keeping only the unique elements. 
+
+function dup(arr){
+    return arr.filter((item, index)=> arr.indexOf(item)===index)
+}
+
+console.log(dup([2,3,4,5,6,7,2,9,1,2,3,5]))
+
+
+
+// Write a function that generates a random alphanumeric string of a given length. 
+
+function randomGen(length){
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    let result = '';
+    for(let i =0; i<length; i++){
+     result+=chars[Math.floor(Math.random()* chars.length)] 
+    }
+    return result
+}
+
+console.log(randomGen(10))
+
+
+
+
+
+function toRoman(num){
+
+    const lookup = {M:1000, CM:900, D:500, CD:400, C:100, XC:90, L:50, XL:40, X:10, IX:9, V:5, IV:4, I:1};
+    let roman = ''
+    for(let i in lookup){
+        while(num>= lookup[i]){
+            roman +=i
+            num -=lookup[i]
+        }
+    }
+    return roman
+}
+
+console.log(toRoman(41))
+
+
+
+// Write a function that removes all falsy values 
+// (false, null, 0, “”, undefined, and NaN) from an array.
+
+function removeFalse(arr){
+   return arr.filter(Boolean)
+}
+
+console.log(removeFalse([NaN, false, 3,5,6, "", undefined]))
