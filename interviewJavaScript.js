@@ -738,3 +738,60 @@ function removeFalse(arr){
 }
 
 console.log(removeFalse([NaN, false, 3,5,6, "", undefined]))
+
+
+
+
+
+//  be a string of HTML DOM elements and 
+//  plain text. The elements that will be 
+//  used are: b, i, em, div, p. For
+//   example: if str is "<div><b><p>hello world</p></b></div>" then this
+//    string of DOM elements is nested correctly so your program
+//     should return the string true.
+
+// If a string is not nested correctly, return the first element encountered where, if changed into a different element, would result in a properly formatted string. If the string is not formatted properly, then it will only be one element that needs to be changed. For example: if str is "<div><i>hello</i>world</b>" then your program should return the string div because if the first <div> element were changed into a <b>, the string would be properly formatted.
+
+// example: Input: "<div><div><b></b></div></p>"
+// Output: div
+
+// Input: "<div>abc</div><p><em><i>test test test</b></em></p>"
+// Output: I
+
+// the function has to be in javascript
+
+
+
+function HTMLElements(str) { 
+    const stack = [];
+    const validEl = new Set(['b', 'i', 'em', 'div', 'p']);
+    const regex = /<\/?[\w]+>/g;
+    let match;
+
+    while((match = regex.exec(str)) !== null) {
+        const tag = match[0];
+
+        if(tag.startsWith('</')) {
+            const opening = stack.pop();
+            if(!opening || !isValidPair(opening, tag)) {
+                return opening ? opening.slice(1, -1) : tag.slice(2, -1);
+            }
+        } else if (tag.startsWith('<')) {
+            const tagName = tag.slice(1, -1);
+
+            if(!validEl.has(tagName)){
+                return tagName;
+            }
+            stack.push(tag);
+        }
+    }
+
+    return stack.length === 0 ? 'true' : stack[stack.length - 1].slice(1, -1);
+
+    function isValidPair(opening, closing){
+        const openingTag = opening.match(/<(\w+)[^>]*>/)[1];
+        const closingTag = closing.slice(2, -1);
+
+        return openingTag === closingTag;
+    }
+}
