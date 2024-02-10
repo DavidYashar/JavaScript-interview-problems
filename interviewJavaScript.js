@@ -791,7 +791,170 @@ function HTMLElements(str) {
     function isValidPair(opening, closing){
         const openingTag = opening.match(/<(\w+)[^>]*>/)[1];
         const closingTag = closing.slice(2, -1);
-
         return openingTag === closingTag;
     }
 }
+
+
+
+// to write a function, which will find the number of zeroes at the end of (number) factorial in arbitrary radix = base for larger numbers.
+
+// base is an integer from 2 to 256
+// number is an integer from 1 to 1'000'000
+// Note Second argument: number is always declared, passed and displayed as a regular decimal number. If you see a test described as 42! in base 20 it's 4210 not 4220 = 8210.
+
+// in javaScript
+
+function zeroes(base, number) {
+    let factors = primeFactors(base);
+    let minFactor = Number.MAX_VALUE;
+  
+    for (let i = 0; i < factors.length; i++) {
+      let factor = factors[i][0];
+      let count = factors[i][1];
+  
+      let x = number;
+      let factorCount = 0;
+  
+      while (x > 0) {
+        x = Math.floor(x / factor);
+        factorCount += x;
+      }
+  
+      minFactor = Math.min(minFactor, Math.floor(factorCount / count));
+    }
+  
+    return minFactor;
+  }
+
+
+
+// finding the number of unqique combination of 4 characters in a string
+
+
+function elements(input) {
+    let result = [];
+  
+    let count = 0;
+    for (let i = count; i < input.length; i++) {
+      if (i === count && count < input.length - 3) {
+        result.push(input[i] + input[i + 1] + input[i + 2] + input[i + 3]);
+      }
+      count++;
+    }
+  
+    let uniqueResults = [];
+    for (let i = 0; i < result.length; i++) {
+      let isUnique = true;
+      for (let j = 0; j < result[i].length; j++) {
+        if (result[i].indexOf(result[i][j]) !== result[i].lastIndexOf(result[i][j])) {
+          isUnique = false;
+          break;
+        }
+      }
+      if (isUnique) {
+        uniqueResults.push(result[i]);
+      }
+    }
+  
+    return uniqueResults.length;
+  }
+  
+  const input = 'abcdedfg';
+  const result = elements(input);
+  console.log(result);
+
+
+
+
+  //permute all the possible combination of words
+  //returned in an array
+
+  function permutations(input) {
+    const result = [];
+
+    const permute = (current, remaining) => {
+      if (remaining.length === 0) {
+        result.push(current);
+        return;
+      }
+
+      for (let i = 0; i < remaining.length; i++) {
+        const nextChar = remaining[i];
+        const newCurrent = current + nextChar;
+        const newRemaining = remaining.slice(0, i) + remaining.slice(i + 1);
+        permute(newCurrent, newRemaining);
+      }
+    }
+
+    permute('', input);
+
+    // Convert result to a Set to remove duplicates, then convert it back to an array
+    return [...new Set(result)];
+}
+
+
+
+
+
+// Given two different positions on a chess board, find the least number of moves it would take a knight to get from one to the other. The positions will be passed as two arguments in algebraic notation. For example, knight("a3", "b5") should return 1.
+
+// The knight is not allowed to move off the board. The board is 8x8.
+
+function knight(start, end) {
+    // Convert algebraic notation to coordinates
+    const startCoord = [start.charCodeAt(0) - 97, parseInt(start[1]) - 1];
+    const endCoord = [end.charCodeAt(0) - 97, parseInt(end[1]) - 1];
+  
+    // Helper function to check if a position is valid on the chessboard
+    const isValidPosition = (x, y) => x >= 0 && x < 8 && y >= 0 && y < 8;
+  
+    // Possible moves for a knight
+    const moves = [
+      [-2, -1], [-1, -2], [1, -2], [2, -1],
+      [-2, 1], [-1, 2], [1, 2], [2, 1]
+    ];
+  
+    // BFS to find the shortest path
+    const queue = [[startCoord, 0]];
+    const visited = Array.from({ length: 8 }, () => Array(8).fill(false));
+  
+    while (queue.length > 0) {
+      const [[x, y], steps] = queue.shift();
+  
+      if (x === endCoord[0] && y === endCoord[1]) {
+        return steps;
+      }
+  
+      for (const [dx, dy] of moves) {
+        const newX = x + dx;
+        const newY = y + dy;
+  
+        if (isValidPosition(newX, newY) && !visited[newX][newY]) {
+          visited[newX][newY] = true;
+          queue.push([[newX, newY], steps + 1]);
+        }
+      }
+    }
+  
+    // If no valid path found
+    return -1;
+  }
+
+
+
+// a function that partition number theory, returning all the psosible sums 
+// a number can have, using dynamic programming
+function sum(n, m = n, memo = {}) {
+    if (n === 0) return 1;
+    if (n < 1 || m === 0) return 0;
+    
+    const key = `${n}-${m}`;
+    if (key in memo) return memo[key];
+    
+    memo[key] = sum(n - m, m, memo) + sum(n, m - 1, memo);
+    return memo[key];
+}
+
+console.log(sum(50));
+
